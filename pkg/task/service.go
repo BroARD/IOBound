@@ -38,13 +38,9 @@ func (s *taskService) DeleteTaskByID(ctx context.Context, task_id string) error 
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	task, exists := s.tasks[task_id]
+	_, exists := s.tasks[task_id]
 	if !exists {
 		return fmt.Errorf("Task not found")
-	}
-	fmt.Println(task.Status)
-	if task.Status == StatusRunning {
-		return fmt.Errorf("Task is running, wait some times")
 	}
 
 	delete(s.tasks, task_id)
